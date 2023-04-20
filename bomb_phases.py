@@ -227,48 +227,62 @@ class Keypad(PhaseThread):
 
 # the jumper wires phase
 class Wires(PhaseThread):
-    def __init__(self, component, target, name="Wires"):
+    def __init__(self, component, target, name="Toggles"):
         super().__init__(name, component, target)
+        self._value = self._get_value_()
+        self._prev_value = self._value
 
     # runs the thread
     def run(self):
+        # TODO
         self._running = True
-        
-        prev_state = [] ######################################### Tests sets current state to later see if any wires have been changed
-        for i in range(len(self._component)):
-                prev_state.append(self._component[i].value)
-        
-        num_target = bin(self._target)[2:].zfill(5)################# Creates the True or False list for the target value
-        target_list = []
-        for i in num_target:
-            target_list.append(bool(int(i)))
-        
         while (self._running):
-            check = []                                           ## Check is the current value of the wires
-            for i in range(len(self._component)):
-                check.append(self._component[i].value)
-            if check == target_list:                             ## tests if current state of wires matches the target value, If so wires defused
+            self._value = self._get_value_()
+            if ((self._value) == self._target):
                 self._defused = True
-            elif check != current_state:                         ## checks if anything has changed
-                for i in range(len(self._component)):
-                    if check[i] != prev_state[i]:                ## checks to see what indexes have changed from previous state of wires
-                        if check[i] = target_list[i]:            ## if the index value is different, and it now matches the same index in the target_list, pass, and if not, give a strike
-                            pass
-                        else:
-                            self._failed = True
-                    else:
-                        pass
-            prev_state = check
+            elif (self._value != self._prev_value):
+                if (self._check_wrong_state()):
+                    self._failed = True
+                self._prev_value = self._value
             sleep(0.1)
             
-        
+            
+    def _get_value_(self):
+        values = []
+        for pin in self._component:
+            values.append(pin.value)
+        bit_values = []
+        for v in values:
+            bit_values.append(str(int(v)))
+        int_value = "".join(bit_values)
+        int_value = int(int_value,2)
+        return int_value
+    
+    def _check_wrong_state(self):
+        #returns True if toggle is in wrong psoition
+        #F otherwise
+        #get index of toggled switch using self._value and self._prev_value
+        #see if the matching index in self._target is correct
+        current = bin(self._value)[2:].zfill(5)
+        #current = "1100"
+        prev = bin(self._prev_value)[2:].zfill(5)
+        #prev = "1110"
+        target = bin(self._target)[2:].zfill(5)
+        for i in range(len(current)):
+            if (current[i] != prev[i]):
+                if(target[i] == current[i]):
+                    return False
+                else:
+                    return True
+                
 
-    # returns the jumper wires state as a string
+    # returns the toggle switches state as a string
     def __str__(self):
         if (self._defused):
             return "DEFUSED"
         else:
-            return Wires.run.check
+            x = bin(self._value)[2:].zfill(5)
+            return x
 
 # the pushbutton phase
 class Button(PhaseThread):
@@ -325,6 +339,8 @@ class Button(PhaseThread):
 class Toggles(PhaseThread):
     def __init__(self, component, target, name="Toggles"):
         super().__init__(name, component, target)
+        self._value = self._get_value_()
+        self._prev_value = self._value
 
     # runs the thread
     def run(self):
@@ -334,17 +350,16 @@ class Toggles(PhaseThread):
             self._value = self._get_value_()
             if ((self._value) == self._target):
                 self._defused = True
-            elif (self._value != self._prev_value()):
+            elif (self._value != self._prev_value):
                 if (self._check_wrong_state()):
                     self._failed = True
                 self._prev_value = self._value
-            pass
             sleep(0.1)
             
             
     def _get_value_(self):
         values = []
-        for i in self._component:
+        for pin in self._component:
             values.append(pin.value)
         bit_values = []
         for v in values:
@@ -362,6 +377,7 @@ class Toggles(PhaseThread):
         #current = "1100"
         prev = bin(self._prev_value)[2:].zfill(4)
         #prev = "1110"
+        target = bin(self._target)[2:].zfill(4)
         for i in range(len(current)):
             if (current[i] != prev[i]):
                 if(target[i] == current[i]):
@@ -376,4 +392,4 @@ class Toggles(PhaseThread):
             return "DEFUSED"
         else:
             x = bin(self._value)[2:].zfill(4)
-            return self._value
+            return x
