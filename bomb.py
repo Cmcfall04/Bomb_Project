@@ -1,7 +1,7 @@
 #################################
 # CSC 102 Defuse the Bomb Project
 # Main program
-# Team: Team: The Bomb Squad (Creed, Avery, Saul
+# Team: Team: The Bomb Squad (Creed, Avery, Saul)
 # 5/4/2023
 #################################
 
