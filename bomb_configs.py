@@ -147,29 +147,30 @@ def genKeypadCombination():
         return combination
 
     # the list of keywords and matching passphrases
-    keywords = { "BANDIT": "RIVER",\
-                 "BUCKLE": "FADED",\
-                 "CANOPY": "FOXES",\
-                 "DEBATE": "THROW",\
-                 "FIERCE": "TRICK",\
-                 "GIFTED": "CYCLE",\
-                 "IMPACT": "STOLE",\
-                 "LONELY": "TOADY",\
-                 "MIGHTY": "ALOOF",\
-                 "NATURE": "CARVE",\
-                 "REBORN": "CLIMB",\
-                 "RECALL": "FEIGN",\
-                 "SYSTEM": "LEAVE",\
-                 "TAKING": "SPINY",\
-                 "WIDELY": "BOUND",\
-                 "ZAGGED": "YACHT" }
+    keywords = { "I RUN BUT I HAVE NO LEGS": "NOSE",\
+                 "WHAT CAN BE MEASURED BUT NOT SEEN?": "TIME",\
+                 "JOE'S FATHER HAS 3 SONS: SNAP, CRACKLE, ...?": "JOE",\
+                 "WHAT CAN YOU CATCH BUT NEVER THROW?": "COLD",\
+                 "WHAT HAS MANY WORDS BUT NEVER SPEAKS?": "BOOK",\
+                 "FORWARD I AM HEAVY, BACKWARDS I AM NOT": "TON",\
+                 "YOU'LL OFTEN FIND US ON A LINE, WHEN WE'RE TOGETHER IT'S A CRIME": "CROW",\
+                 "I STAY IN THE CORNER AND YET I TRAVEL ALL AROUND THE WORLD": "STAMP",\
+                 "I SHAVE EVERYDAY, BUT MY BEARD STAYS THE SAME": "BARBER",\
+                 "IM TALL WHEN IM YOUNG, IM SHORT WHEN IM OLD": "CANDLE",\
+                 "WHAT'S 3/7 CHICKEN, 2/3 CAT, 2/4 GOAT": "CHICAGO",\
+                 "I HAVE BRANCHES BUT NO FRUIT, TRUNK OR LEAVES": "BANK",\
+                 "WHAT HAS A HEAD AND A TAIL, BUT NO BODY OR LEGS": "COIN",\
+                 "WHAT BIRD CAN LIFT THE MOST?": "CRANE",\
+                 "THE RICH WANT ME, THE POOR HAVE ME AND IF YOU EAT ME YOU DIE": "NOTHING",\
+                 "A WORD OF LETTERS THREE, ADD TWO AND LESS THERE WILL BE": "FEW" }
     # the rotation cipher key
     rot = randint(1, 25)
 
     # pick a keyword and matching passphrase
     keyword, passphrase = choice(list(keywords.items()))
     # encrypt the passphrase and get its combination
-    cipher_keyword = encrypt(keyword, rot)
+    #cipher_keyword = encrypt(keyword, rot)
+    cipher_keyword= keyword
     combination = digits(passphrase)
 
     return keyword, cipher_keyword, rot, combination, passphrase
@@ -216,7 +217,7 @@ boot_text = f"Booting...\n\x00\x00"\
             f"*System model: 102BOMBv4.2\n"\
             f"*Serial number: {serial}\n"\
             f"Encrypting keypad...\n\x00"\
-            f"*Keyword: {cipher_keyword}; key: {rot}\n"\
+            f"*Keyword: {cipher_keyword}\n"\
             f"*{''.join(ascii_uppercase)}\n"\
             f"*{''.join([str(n % 10) for n in range(26)])}\n"\
             f"Rendering phases...\x00"

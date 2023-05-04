@@ -92,6 +92,13 @@ class Lcd(Frame):
         self._lbutton.destroy()
         self._ltoggles.destroy()
         self._lstrikes.destroy()
+        if success == True:
+            image = PhotoImage(file="Defused_image.png")
+        else:
+            image = PhotoImage(file="Failed_image.png")
+        self._lscroll["image"] = image
+        self._lscroll.image = image
+        self._lscroll.grid(row=0, column=0, columnspan=3, sticky=EW)
         if (SHOW_BUTTONS):
             self._bpause.destroy()
             self._bquit.destroy()
