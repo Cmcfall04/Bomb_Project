@@ -1,7 +1,8 @@
 #################################
 # CSC 102 Defuse the Bomb Project
 # Configuration file
-# Team: 
+# Team: The Bomb Squad (Creed, Avery, Saul
+# 5/4/2023
 #################################
 
 # constants
